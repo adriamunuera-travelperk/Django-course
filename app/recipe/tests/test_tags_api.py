@@ -77,6 +77,6 @@ class PrivateTagsApiTests(TestCase):
 
     def test_create_tag_invalid(self):
         """ Test creating a new tag with invalid payload """
-        payload = {'name':''}
+        payload = {'name': ''}
         response = self.client.post(TAGS_URL, payload)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
