@@ -22,6 +22,9 @@ class BaseViewSet(viewsets.GenericViewSet,
         """ Create a new object"""
         serializer.save(user=self.request.user)
 
+    class Meta:
+        abstract = True
+
 
 class TagViewSet(BaseViewSet):
     """ Manage tags in the database """

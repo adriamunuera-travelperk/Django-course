@@ -18,7 +18,7 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password):
-        """Creates and saves a new superuser"""
+        """Creates and saves a new superuser """
         user = self.create_user(email=email, password=password)
         user.is_staff = True
         user.is_superuser = True
@@ -27,7 +27,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    """Custom user model that supports using email instead of username"""
+    """Custom user model that supports using email instead of username """
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
@@ -52,7 +52,7 @@ class Tag(models.Model):
 
 
 class Ingredient(models.Model):
-    """ Ingredient to be used in  a recipe"""
+    """ Ingredient to be used in  a recipe """
     name = models.CharField(max_length=255)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -62,3 +62,20 @@ class Ingredient(models.Model):
     def __str__(self):
         """ Override the to string cast """
         return self.name
+
+
+class Recipe(models.Model):
+    """ Recipe object """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    time_minutes = models.IntegerField()
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    link = models.CharField(max_length=255, blank=True)
+    ingredients = models.ManyToManyField('Ingredient')
+    tags = models.ManyToManyField('Tag')
+
+    def __str__(self):
+        return self.title
